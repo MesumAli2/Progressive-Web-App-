@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Lessons</title>
+<style>
+    #subject{
+        margin-left: 250px;
+        margin-top: -200px;
+    }
+    table, th, td {
+          border: 1px solid black;
+        }
+        th, td {
+  padding: 15px;}
+
+  button{
+     width: 100px;
+     height: 30px;
+     margin-left: 60px;
+  }
+
+        </style>
+
+<script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+
+<script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.min.js"></script>
+       
+<script src="https://unpkg.com/bootstrap-vue@2.21.2/dist/bootstrap-vue.min.js"></script>
+<link rel="manifest" href="lessons.webmanifest">
+<script>
+    if('serviceWorker' in navigator) {
+         navigator.serviceWorker.register('serviceWorker.js')
+         .then(function(registration){
+             console.log('SW Registerd! Scope is ..', registration.scope)
+         })
+};
+</script>
+
+</head>
+<body>
+
+    <div id="app">
+    <h1 v-text="subject.sitename"></h1>
+    <!--Displays the image from subject.image stored in data Vue Object -->
+    <h1 v-html="subject.image">{{subject.image}}</h1>
+    <!-- V-on directive binds html Dom element to a javascript function -->
+    <!-- This button will be displayed when 'canAddToCart' computed func is True -->
+    <!--Use V-on: click to call addtocart -->
+    <button v-on:click="addtocart" v-if="canAddToCart"> Add to cart</button>
+    <!-- This button will be displayed otherwise -->
+    <button disabled='disabled'v-else> Add to cart</button>
+
+    <div id="subject">
+    <table> 
+    <tr>
+    <th>Subject</th>    
+    <th>Location</th>
+    <th>Price</th>
+    <th>Spaces</th>
+    </tr>
+
+    <tr> 
+    <!--data binding using V-text directive-->
+    <th v-text="subject.lesson"></th>    
+    <th v-text="subject.location"></th>
+    <th v-text="subject.price"></th>
+    <th v-text="subject.Spaces"></th> 
+    </tr>
+    </table>
+    </div>
+  
+</div>
+
+<script>
+
+    let app = new Vue({
+        el:'#app',
+        data:{
+            //Subject infromation
+            subject:{
+            sitename:"After School Club",
+            lesson: "Maths",
+            location: "London",
+            price: 100,
+            image:'<img src="mathsicon.png" alt="mathsIcon" width="230" height="200">',
+            Spaces: 5
+        }},
+        methods:{
+            //Decreases the spaces by 1 if spaces are greater then 0
+            addtocart :function(){
+            if(this.subject.Spaces > 0){
+            this.subject.Spaces -- 
+            }
+        } },
+        computed:{
+            //Returns true if Subject space is not equal to 0
+            canAddToCart : function(){
+            return this.subject.Spaces !== 0 }
+        }
+        })
+</script>
+</body>
+</html>
