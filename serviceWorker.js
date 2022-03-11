@@ -1,13 +1,14 @@
 var cacheName = 'lessons-v1'; 
 var cacheFiles = [
     'index.html',
-    "mathsicon.png"
-  
-    
- 
+    "mathsicon.png",
+    "lessonicon_1_521x512.png",
+    "lessonicon_192x192.png"
+
     ];
 
-
+    //Intiates the service worker for the first time by caching all the required files
+    //To run the application offline
     self.addEventListener('install', (e) => {
          console.log('[Service Worker] Install'); 
          e.waitUntil(
@@ -18,13 +19,7 @@ var cacheFiles = [
         });
 
 
-        self.addEventListener('fetch', 
-        function(event){
-            event.respondWith(
-                caches.match(event.request)
-            );
-        });
-
+        //Intercepts the fetch from service navigatior to add new files and load existing files
         self.addEventListener('fetch', function (e) { e.respondWith(
             caches.match(e.request).then(function (r) {
             // Download the file if it is not in the cache,
@@ -32,6 +27,8 @@ var cacheFiles = [
                     // add the new file to cache
             return caches.open(cacheName).then(function (cache) { cache.put(e.request, response.clone());
             return response;
-            }); });
-            }) );
             });
+         });
+        })
+     );
+ });
